@@ -72,7 +72,7 @@ ENV PATH $SPARK_HOME/bin:$PATH
 
 
 ADD config/slaves $SPARK_HOME/conf/slaves
-RUN echo "export SPARK_MASTER_HOST='172.16.0.2'" >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export SPARK_MASTER_HOST='172.12.0.2'" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $SPARK_HOME/conf/spark-env.sh
 
 ARG FORMAT_NAMENODE_COMMAND
