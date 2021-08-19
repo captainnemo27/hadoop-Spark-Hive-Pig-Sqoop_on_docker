@@ -1,0 +1,22 @@
+<configuration>
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>file:/home/hadoop/hdfs_name</value>
+	</property>
+    	<property>
+        	<name>dfs.datanode.data.dir</name>
+        	<value>file:/home/hadoop/hdfs_data</value>
+    	</property>
+    	<property>
+        	<name>dfs.replication</name>
+        	<value>2</value>
+    	</property>
+    	<property>
+        	<name>dfs.namenode.secondary.http-address</name>
+        	<value>master:9001</value>
+    	</property>
+    	<property>
+        	<name>dfs.webhdfs.enabled</name>
+        	<value>true</value>
+	</property>
+</configuration>
