@@ -62,22 +62,19 @@ ENV PIG_CLASSPATH $HADOOP_CONF_DIR
 #RUN /bin/bash -c "source ~/.bashrc"
 
 # SQOOP
-RUN wget http://archive.apache.org/dist/sqoop/1.99.7/sqoop-1.99.7-bin-hadoop200.tar.gz
-RUN tar -xvf sqoop-1.99.7-bin-hadoop200.tar.gz
-RUN mv sqoop-1.99.7-bin-hadoop200 usr/local/sqoop
-ENV SQOOP_HOME=/usr/local/sqoop
+RUN wget http://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+RUN tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+RUN mv sqoop-1.4.7.bin__hadoop-2.6.0 usr/local/sqoop
+ENV SQOOP_HOME /usr/local/sqoop
 ENV PATH $SQOOP_HOME/bin:$PATH
-ENV SQOOP_CONF_DIR $SQOOP_HOME/conf
-ENV SQOOP_CLASS_PATH $SQOOP_CONF_DIR
-ADD config/sqoop.properties $SQOOP_HOME/conf/sqoop.properties
+ENV CLASSPATH $SQOOP_HOME/lib:$CLASSPATH
+ADD config/sqoop-conf.sh $SQOOP_HOME/conf/
+#mysql driver
 RUN wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-8.0.26.tar.gz
 RUN tar -xvf mysql-connector-java-8.0.26.tar.gz
-# Create directory for extra jars
-RUN mkdir -p /usr/local/sqoop2/
-# Copy all your JDBC drivers to this directory
-RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar /usr/local/sqoop2/
-# And finally export this directory to SQOOP_SERVER_EXTRA_LIB
-ENV SQOOP_SERVER_EXTRA_LIB /usr/local/sqoop2/
+RUN mkdir -p /usr/local/sqoop/
+RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar /usr/local/sqoop/lib/
+
 
 #SPARK
 
