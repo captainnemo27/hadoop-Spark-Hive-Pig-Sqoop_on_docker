@@ -61,6 +61,24 @@ ENV PATH $PIG_HOME/bin:$PATH
 ENV PIG_CLASSPATH $HADOOP_CONF_DIR
 #RUN /bin/bash -c "source ~/.bashrc"
 
+# SQOOP
+RUN wget http://archive.apache.org/dist/sqoop/1.99.7/sqoop-1.99.7-bin-hadoop200.tar.gz
+RUN tar -xvf sqoop-1.99.7-bin-hadoop200.tar.gz
+RUN mv sqoop-1.99.7-bin-hadoop200 usr/local/sqoop
+ENV SQOOP_HOME=/usr/local/sqoop
+ENV PATH $SQOOP_HOME/bin:$PATH
+ENV SQOOP_CONF_DIR $SQOOP_HOME/conf
+ENV SQOOP_CLASS_PATH $SQOOP_CONF_DIR
+ADD config/sqoop.properties $SQOOP_HOME/conf/sqoop.properties
+RUN wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-8.0.26.tar.gz
+RUN tar -xvf mysql-connector-java-8.0.26.tar.gz
+# Create directory for extra jars
+RUN mkdir -p /usr/local/sqoop2/
+# Copy all your JDBC drivers to this directory
+RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar /usr/local/sqoop2/
+# And finally export this directory to SQOOP_SERVER_EXTRA_LIB
+ENV SQOOP_SERVER_EXTRA_LIB /usr/local/sqoop2/
+
 #SPARK
 
 RUN wget https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop2.7.tgz
