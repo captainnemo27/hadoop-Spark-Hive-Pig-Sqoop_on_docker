@@ -11,4 +11,12 @@
         <name>io.file.buffer.size</name>
         <value>131702</value>
     </property>
+    <property>
+  	    <name>hadoop.proxyuser.master.hosts</name>
+  	    <value>*</value>
+     </property>
+    <property>
+  	    <name>hadoop.proxyuser.master.groups</name>
+  	    <value>*</value>
+	</property>
 </configuration>
