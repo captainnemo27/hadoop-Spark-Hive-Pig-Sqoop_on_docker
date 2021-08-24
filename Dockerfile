@@ -68,7 +68,7 @@ RUN mv sqoop-1.4.7.bin__hadoop-2.6.0 usr/local/sqoop
 ENV SQOOP_HOME /usr/local/sqoop
 ENV PATH $SQOOP_HOME/bin:$PATH
 ENV CLASSPATH $SQOOP_HOME/lib:$CLASSPATH
-ADD config/sqoop-conf.sh $SQOOP_HOME/conf/
+ADD config/sqoop-env.sh $SQOOP_HOME/conf/
 #mysql driver
 RUN wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-8.0.26.tar.gz
 RUN tar -xvf mysql-connector-java-8.0.26.tar.gz
