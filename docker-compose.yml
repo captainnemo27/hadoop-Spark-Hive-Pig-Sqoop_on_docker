@@ -19,7 +19,7 @@ services:
     hostname: slave1
     restart: always
     volumes:
-       - myapp:/node/slave1
+       - myapp:/slave1
   slave2:
     build: 
       context: .
@@ -39,7 +39,7 @@ services:
     hostname: slave2
     restart: always
     volumes:
-       - myapp:/node/slave2
+       - myapp:/slave2
   master:
     build:
       context: .
@@ -67,7 +67,7 @@ services:
     hostname: master
     restart: always
     volumes: 
-       - myapp:/node/master
+       - myapp:/master
 #  mySQL:
 #    image: mysql:8.0
 #    networks:
