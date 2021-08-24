@@ -72,8 +72,7 @@ ADD config/sqoop-conf.sh $SQOOP_HOME/conf/
 #mysql driver
 RUN wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-8.0.26.tar.gz
 RUN tar -xvf mysql-connector-java-8.0.26.tar.gz
-RUN mkdir -p /usr/local/sqoop/
-RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar /usr/local/sqoop/lib/
+RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar $SQOOP_HOME/lib/
 
 
 #SPARK
