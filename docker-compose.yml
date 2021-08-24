@@ -18,6 +18,8 @@ services:
          && tail -f /dev/null"
     hostname: slave1
     restart: always
+    volumes:
+       - myapp:/node/slave1
   slave2:
     build: 
       context: .
@@ -36,6 +38,8 @@ services:
          && tail -f /dev/null"
     hostname: slave2
     restart: always
+    volumes:
+       - myapp:/node/slave2
   master:
     build:
       context: .
@@ -62,6 +66,8 @@ services:
       - 4040:4040
     hostname: master
     restart: always
+    volumes: 
+       - myapp:/node/master
 #  mySQL:
 #    image: mysql:8.0
 #    networks:
@@ -85,6 +91,9 @@ services:
 #        - 8888:80
 #      environment:
 #        - PMA_ARBITRARY=1
+volumes:
+  myapp:
+    external: true
 networks:
   default:
     external:
