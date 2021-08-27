@@ -61,7 +61,7 @@ services:
         && tail -f /dev/null"
     ports:
       - 50070:50070
-      - 8088:8088
+      - 8090:8090
       - 8080:8080
       - 4040:4040
     hostname: master
