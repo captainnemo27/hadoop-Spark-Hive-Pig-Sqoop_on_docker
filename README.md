@@ -37,11 +37,13 @@
 
 
 ## ***INSTALLATION***
-
+* clone this git, and install docker and docker-compose in your pc.
 * You can install this project in [Hadoop with Docker]()
 
 ## ***BUILD***
-
+* If you want to use a client connect accross docker , you can use network overlay:
+>docker network create -d overlay my-overlay
+| docker network create -d overlay --attachable my-attachable-overlay
 * After install project, create *hadoop-network* with command: *docker network create --driver bridge hadoop-network --subnet=172.12.0.0/16*
 * Setup docker volume: *docker volume create --name=myhadoop*
 * Then, you go into the project and run command to build the hadoop cluster: docker-compose build
