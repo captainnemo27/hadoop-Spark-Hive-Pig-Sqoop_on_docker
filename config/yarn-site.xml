@@ -25,6 +25,6 @@
     	</property>
     	<property>
         	<name>yarn.resourcemanager.webapp.address</name>
-        	<value>master:8088</value>
+        	<value>master:8090</value>
 	</property>
 </configuration>

@@ -54,7 +54,7 @@ RUN echo "HADOOP_HOME=/usr/local/hadoop" >> $HIVE_HOME/bin/hive-config.sh
 
 # PIG
 RUN wget https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz
-RUN tar -xzf pig-0.17.0.tar.gz 
+RUN tar -xzf pig-0.17.0.tar.gz
 RUN mv pig-0.17.0 /usr/local/pig
 ENV PIG_HOME /usr/local/pig
 ENV PATH $PIG_HOME/bin:$PATH
@@ -91,4 +91,6 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $SPARK_HOME/con
 
 ARG FORMAT_NAMENODE_COMMAND
 RUN $FORMAT_NAMENODE_COMMAND
+RUN mkdir -p /run/sshd
+RUN /usr/sbin/sshd
 EXPOSE 22

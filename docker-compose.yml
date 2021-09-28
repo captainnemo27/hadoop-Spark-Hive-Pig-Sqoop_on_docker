@@ -12,7 +12,8 @@ services:
       - "master: 172.12.0.2"
       - "slave2: 172.12.0.4"
     command: bash -c  " 
-         hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
+         /usr/sbin/sshd
+         && hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
          && yarn-daemon.sh --config /usr/local/hadoop/etc/hadoop start nodemanager
          && start-slave.sh master:7077
          && tail -f /dev/null"
@@ -31,8 +32,9 @@ services:
     extra_hosts:
         - "master: 172.12.0.2"
         - "slave1: 172.12.0.3"
-    command: bash -c  " 
-         hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
+    command: bash -c  "
+         /usr/sbin/sshd 
+         && hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
          && yarn-daemon.sh --config /usr/local/hadoop/etc/hadoop start nodemanager
          && start-slave.sh master:7077
          && tail -f /dev/null"
@@ -54,43 +56,27 @@ services:
       - "slave1: 172.12.0.3"
       - "slave2: 172.12.0.4"
     command: bash -c  "
-        start-dfs.sh
+        /usr/sbin/sshd
+        && start-dfs.sh
         && start-yarn.sh
         && mr-jobhistory-daemon.sh start historyserver
         && start-master.sh
         && tail -f /dev/null"
     ports:
-      - 50070:50070
-      - 8090:8090
-      - 8080:8080
+      - 50070:50070 #hdfs
+      - 8090:8090 #yarn
+      - 8080:8080 #spark
+      - 8070:8070
+      - 8060:8060
+      - 7080:7080
+      - 7070:7070
+      - 8780:8780
+      - 8793:8793
       - 4040:4040
     hostname: master
     restart: always
     volumes: 
        - myhadoop:/master
-#  mySQL:
-#    image: mysql:8.0
-#    networks:
-#      default:
-#        ipv4_address: 172.12.0.12
-#    container_name: mySQL
-#    command: --default-authentication-plugin=mysql_native_password
-#    restart: always
-#    ports:
-#      - '6603:3306'
-#    environment:
-#      MYSQL_ROOT_PASSWORD: helloworld
-#
-#  phpmyadmin:
-#      image: phpmyadmin
-#      networks:
-#        default:
-#          ipv4_address: 172.12.0.13
-#      restart: always
-#      ports:
-#        - 8888:80
-#      environment:
-#        - PMA_ARBITRARY=1
 volumes:
   myhadoop:
     external: true
