@@ -23,7 +23,6 @@ ENV HADOOP_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR $HADOOP_HOME/etc/hadoop
 ENV PATH $HADOOP_HOME/sbin:$PATH
 
-
 RUN mkdir /home/hadoop
 RUN mkdir /home/hadoop/tmp /home/hadoop/hdfs_name /home/hadoop/hdfs_data
 
@@ -40,25 +39,14 @@ ADD config/stop-yarn.sh $HADOOP_HOME/sbin
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 
 ENV PATH $HADOOP_HOME/bin:$PATH
-#RUN /bin/bash -c "source ~/.bashrc"
-
-
-# HIVE
-RUN wget https://mirror.downloadvn.com/apache/hive/hive-2.3.9/apache-hive-2.3.9-bin.tar.gz
-RUN tar -xzf apache-hive-2.3.9-bin.tar.gz
-RUN mv apache-hive-2.3.9-bin /usr/local/hive
-ENV HIVE_HOME /usr/local/hive
-ENV PATH $HIVE_HOME/bin:$PATH
-#RUN /bin/bash -c "source ~/.bashrc"
-RUN echo "HADOOP_HOME=/usr/local/hadoop" >> $HIVE_HOME/bin/hive-config.sh
 
 # PIG
-RUN wget https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz
-RUN tar -xzf pig-0.17.0.tar.gz
-RUN mv pig-0.17.0 /usr/local/pig
-ENV PIG_HOME /usr/local/pig
-ENV PATH $PIG_HOME/bin:$PATH
-ENV PIG_CLASSPATH $HADOOP_CONF_DIR
+#RUN wget https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz
+#RUN tar -xzf pig-0.17.0.tar.gz
+#RUN mv pig-0.17.0 /usr/local/pig
+#ENV PIG_HOME /usr/local/pig
+#ENV PATH $PIG_HOME/bin:$PATH
+#ENV PIG_CLASSPATH $HADOOP_CONF_DIR
 #RUN /bin/bash -c "source ~/.bashrc"
 
 # SQOOP
@@ -74,20 +62,33 @@ RUN wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-
 RUN tar -xvf mysql-connector-java-8.0.26.tar.gz
 RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar $SQOOP_HOME/lib/
 
+# HIVE
+RUN wget https://mirror.downloadvn.com/apache/hive/hive-2.3.9/apache-hive-2.3.9-bin.tar.gz
+RUN tar -xzf apache-hive-2.3.9-bin.tar.gz
+RUN mv apache-hive-2.3.9-bin /usr/local/hive
+ENV HIVE_HOME /usr/local/hive
+ENV PATH $HIVE_HOME/bin:$PATH
+RUN echo "HADOOP_HOME=/usr/local/hadoop" >> $HIVE_HOME/bin/hive-config.sh
+RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar $HIVE_HOME/lib/
+RUN cp $HIVE_HOME/lib/hive-common-2.3.9.jar $SQOOP_HOME/lib/
+ADD config/hive-site.xml $HIVE_HOME/conf/
 
 #SPARK
-
 RUN wget https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop2.7.tgz
 RUN tar xvf spark-3.0.3-bin-hadoop2.7.tgz
 RUN mv spark-3.0.3-bin-hadoop2.7 /usr/local/spark
 ENV SPARK_HOME /usr/local/spark
 ENV PATH $SPARK_HOME/sbin:$PATH
 ENV PATH $SPARK_HOME/bin:$PATH
-
+ADD config/hive-site.xml $SPARK_HOME/conf/
+RUN cp mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar $SPARK_HOME/jars/
 
 ADD config/slaves $SPARK_HOME/conf/slaves
 RUN echo "export SPARK_MASTER_HOST='172.12.0.2'" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export SPARK_CLASSPATH=$SPARK_HOME/jars/mysql-connector-java-8.0.26.jar" >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop " >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export YARN_CONF_DIR=$HADOOP_HOME/etc/hadoop" >> $SPARK_HOME/conf/spark-env.sh
 
 ARG FORMAT_NAMENODE_COMMAND
 RUN $FORMAT_NAMENODE_COMMAND
