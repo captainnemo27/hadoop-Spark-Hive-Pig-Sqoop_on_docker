@@ -21,27 +21,27 @@ services:
     restart: always
     volumes:
        - myhadoop:/slave1
-  slave2:
-    build: 
-      context: .
-      shm_size: '2gb'
-    container_name: slave2
-    networks:
-      default:
-         ipv4_address: 172.12.0.4
-    extra_hosts:
-        - "master: 172.12.0.2"
-        - "slave1: 172.12.0.3"
-    command: bash -c  "
-         /usr/sbin/sshd 
-         && hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
-         && yarn-daemon.sh --config /usr/local/hadoop/etc/hadoop start nodemanager
-         && start-slave.sh master:7077
-         && tail -f /dev/null"
-    hostname: slave2
-    restart: always
-    volumes:
-       - myhadoop:/slave2
+#  slave2:
+#    build:
+#      context: .
+#      shm_size: '2gb'
+#    container_name: slave2
+#    networks:
+#      default:
+#         ipv4_address: 172.12.0.4
+#    extra_hosts:
+#        - "master: 172.12.0.2"
+#        - "slave1: 172.12.0.3"
+#    command: bash -c  "
+#         /usr/sbin/sshd
+#         && hadoop-daemon.sh --config /usr/local/hadoop/etc/hadoop start datanode
+#         && yarn-daemon.sh --config /usr/local/hadoop/etc/hadoop start nodemanager
+#         && start-slave.sh master:7077
+#         && tail -f /dev/null"
+#    hostname: slave2
+#    restart: always
+#    volumes:
+#       - myhadoop:/slave2
   master:
     build:
       context: .
@@ -66,6 +66,8 @@ services:
       - 50070:50070 #hdfs
       - 8090:8090 #yarn
       - 8080:8080 #spark
+      - 10000:10000 #hiveserer2
+      - 10002:10002 #hiveUI
       - 8070:8070
       - 8060:8060
       - 7080:7080
