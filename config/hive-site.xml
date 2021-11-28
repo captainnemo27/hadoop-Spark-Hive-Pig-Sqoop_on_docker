@@ -36,7 +36,7 @@
   </property>
   <property>
     <name>hive.exec.scratchdir</name>
-    <value>/tmp/hive-hive-${user.name}</value>
+    <value>/tmp/hive-root</value>
     <description>HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt; is created, with ${hive.scratch.dir.permission}.</description>
   </property>
   <property>
@@ -72,12 +72,12 @@
   </property>
   <property>
 	  <name>hive.exec.local.scratchdir</name>
-	<value>/tmp/${user.name}</value>
+	<value>/tmp/root</value>
     <description>Local scratch space for Hive jobs</description>
   </property>
   <property>
     <name>hive.downloaded.resources.dir</name>
-    <value>/tmp/${user.name}_resources</value>
+    <value>/tmp/root_resources</value>
     <description>Temporary local directory for added resources in the remote file system.</description>
   </property>
   <property>
@@ -4356,7 +4356,7 @@
   </property>
   <property>
     <name>hive.server2.enable.doAs</name>
-    <value>true</value>
+    <value>false</value>
     <description>
       Setting this property to true will have HiveServer2 execute
       Hive operations as the user making the calls to it.
